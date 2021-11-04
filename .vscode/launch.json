@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "/home/afalcon/Code/odoo/odoo14/odoo-bin",
+            "args": ["--addons-path=/home/afalcon/Code/odoo/odoo14/addons/,/home/afalcon/Code/odoo/custom/odoo14/", "-d", "odoo14", "-u", "estate", "--dev", "xml", "--limit-time-cpu=9999", "--limit-time-real=9999"],
+            "console": "integratedTerminal"
+        }
+    ]
+}
