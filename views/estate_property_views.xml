@@ -3,7 +3,7 @@
     <record id="estate_property_action" model="ir.actions.act_window">
         <field name="name">Properties</field>
         <field name="res_model">estate.property</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban</field>
         <field name="context" eval="{'search_default_available': 1}"/>
     </record>
 
@@ -30,8 +30,8 @@
         <field name="arch" type="xml">
             <form string="Estate Property">
                 <header>
-                    <button name="sold_property" type="object" string="SOLD" states="new"/>
-                    <button name="cancel_property" type="object" string="CANCEL" states="new"/>
+                    <button name="sold_property" type="object" string="SOLD" states="sold"/>
+                    <button name="cancel_property" type="object" string="CANCEL" states="accepted"/>
                 </header>
                 <sheet>
                     <div>
@@ -81,6 +81,35 @@
                     </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="estate_property_view_kanban" model="ir.ui.view">
+        <field name="name">estate.property.kanban</field>
+        <field name="model">estate.property</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="property_type_id" records_draggable="false">
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <field name="name"/>
+                            <div>
+                                Expected price: <field name="expected_price"/>
+                            </div>
+                            <div t-if="record.state.raw_value == 'received'">
+                                Best price: <field name="best_price"/>    
+                            </div>
+                            <div t-if="record.state.raw_value == 'accepted'">
+                                Selling price: <field name="selling_price"/>    
+                            </div>
+                            <div>
+                                <field name="tag_ids"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 
