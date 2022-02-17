@@ -66,6 +66,8 @@ class PropertyOffer(models.Model):
             min_offer =  min(prop.offer_ids.mapped('price'))
             if vals_list['price'] < min_offer:
                 raise UserError(f"The offer must be higher than {min_offer}") 
+        if prop.state == 'sold':
+            raise UserError(f"Can't create an offer for a sold property")
         if prop.state == 'new':
             prop.state = 'received'        
         return super().create(vals_list)
