@@ -3,6 +3,7 @@
 from datetime import timedelta
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools import float_is_zero, float_compare
 
 class EstateProperty(models.Model):
     _name = 'estate.property'
@@ -40,8 +41,8 @@ class EstateProperty(models.Model):
 
     @api.constrains('expected_price', 'selling_price')
     def _check_percent(self):
-        for record in self:
-            if  record.selling_price > 0 and record.selling_price < 0.9 * record.expected_price:
+        for record in self: # siempre usar float_is_zero y float_compare para floats
+            if not float_is_zero(record.selling_price, 2) and record.selling_price < 0.9 * record.expected_price:
                 raise ValidationError(_('Selling price cannot be less than 90 percent of expected price.'))
                 
     @api.depends("living_area", "garden_area")
@@ -82,16 +83,16 @@ class EstateProperty(models.Model):
     #         self.state = 'received'
 
     def sold_property(self):
-        for record in self:
+        for record in self: # todo revisar las ofertas
             if record.state == 'canceled':
-                raise UserError("Canceled properties cannot be sold.")
+                raise UserError(_("Canceled properties cannot be sold."))
             record.state = "sold"
         return True
 
     def cancel_property(self):
         for record in self:
             if record.state == 'sold':
-                raise UserError("Sold properties cannot be canceled.")
+                raise UserError(_("Sold properties cannot be canceled."))
             record.state = "canceled"
         return True
 

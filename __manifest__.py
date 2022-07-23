@@ -13,10 +13,13 @@
         'views/property_tag_views.xml',
         'views/users.xml',
         'views/estate_menus.xml',
-        'data/estate.property.type.csv',
+        #'data/estate.property.type.csv',
+        'report/estate_report_templates.xml',
+        'report/estate_report_views.xml',
     ],
     'demo': [
-        'demo/demo_data.xml',
+        #'demo/demo_data.xml',
+        "demo/estate_demo.xml"
     ],
     'installable': True,
     'application': True,

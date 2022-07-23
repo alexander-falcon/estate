@@ -30,7 +30,7 @@
         <field name="arch" type="xml">
             <form string="Estate Property">
                 <header>
-                    <button name="sold_property" type="object" string="SOLD" states="sold"/>
+                    <button name="sold_property" type="object" string="SOLD" states="sold"/> <!--creo que el estado aqui esta mal-->
                     <button name="cancel_property" type="object" string="CANCEL" states="accepted"/>
                 </header>
                 <sheet>
@@ -94,19 +94,19 @@
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
                             <field name="name"/>
-                            <div>
-                                Expected price: <field name="expected_price"/>
-                            </div>
-                            <div t-if="record.state.raw_value == 'received'">
-                                Best price: <field name="best_price"/>    
-                            </div>
-                            <div t-if="record.state.raw_value == 'accepted'">
-                                Selling price: <field name="selling_price"/>    
-                            </div>
-                            <div>
-                                <field name="tag_ids"/>
-                            </div>
+                        </div>    
+                        <div>
+                            Expected price: <field name="expected_price"/>
                         </div>
+                        <div t-if="record.state.raw_value == 'received'">
+                            Best price: <field name="best_price"/>    
+                        </div>
+                        <div t-if="record.state.raw_value == 'accepted'">
+                            Selling price: <field name="selling_price"/>    
+                        </div>
+                        <div>
+                            <field name="tag_ids"/>
+                        </div>                     
                     </t>
                 </templates>
             </kanban>

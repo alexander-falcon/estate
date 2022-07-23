@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from datetime import timedelta
 from odoo.exceptions import UserError
 
@@ -40,11 +40,14 @@ class PropertyOffer(models.Model):
     def action_accept(self):
         # deberia iterar y poner en refused el resto
         #for record in self:
+        self.ensure_one()
         record = self
         if record.status == 'refused':
-            raise UserError("Refused offer cannot be accepted.")
+            raise UserError(_("Refused offer cannot be accepted."))
         if self.property_id.offer_ids and (len(self.property_id.offer_ids) > 0):
-            self.property_id.offer_ids.status = "refused"
+            # todo revisar esto quizas deberia iterar
+            # puede que haya alguna oferta que ya este aceptada
+            self.property_id.offer_ids.status = "refused" 
         record.status = "accepted"
         record.property_id.buyer_id = record.partner_id
         record.property_id.selling_price = record.price
@@ -52,10 +55,11 @@ class PropertyOffer(models.Model):
         return True
 
     def action_refuse(self):
+        self.ensure_one()
         record = self
         #for record in self:
         if record.status == 'accepted':
-            raise UserError("Accepted offer cannot be refused.")
+            raise UserError(_("Accepted offer cannot be refused."))
         record.status = "refused"
         return True
 
@@ -65,9 +69,10 @@ class PropertyOffer(models.Model):
         if prop.offer_ids and len(prop.offer_ids) > 0:
             min_offer =  min(prop.offer_ids.mapped('price'))
             if vals_list['price'] < min_offer:
-                raise UserError(f"The offer must be higher than {min_offer}") 
-        if prop.state == 'sold':
-            raise UserError(f"Can't create an offer for a sold property")
+                raise UserError(_("The offer must be higher than %s", min_offer))
+        if prop.state == 'sold' or prop.state == 'accepted' or prop.state == 'canceled':
+            raise UserError(_("Can't create an offer for a property with one of the states: Sold, Offer Accepted, Canceled"))   
+
         if prop.state == 'new':
             prop.state = 'received'        
         return super().create(vals_list)

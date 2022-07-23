@@ -11,6 +11,6 @@ class PropertyTag(models.Model):
     color = fields.Integer()
 
     _sql_constraints = [
-        ('check_tag_name', 'UNIQUE(name)', 'Tag name must be unique.')
+        ('check_tag_name', 'UNIQUE(name)', 'Tag name must be unique.') # todo como es la traduccion de esto
     ]
     
