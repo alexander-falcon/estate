@@ -23,11 +23,11 @@
         <field name="model">estate.property.type</field>
         <field name="arch" type="xml">
             <form string="Estate Property Type">
-               <header>
-                    <button class="oe_stat_button" name="%(estate_property_offer_action)d" type="action" string="Offers" icon="fa-usd">
-                        <field string="Offers" name="offer_count" widget="statinfo"/>
+               <div class="oe_button_box" name="button_box">
+                    <button name="%(estate.estate_property_offer_action)d" type="action" class="oe_stat_button" icon="fa-money">
+                        <field name="offer_count" widget="statinfo" string="Offers"/>
                     </button>
-                </header>
+                </div>
                 <field name="name"/>
                 <field name="property_ids">
                     <tree>

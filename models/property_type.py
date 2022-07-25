@@ -20,6 +20,6 @@ class PropertyType(models.Model):
     @api.depends("offer_ids")
     def _compute_number_offers(self):
         for record in self:
-            if record.offer_ids:
+            if record.offer_ids is not None:
                 record.offer_count = len(record.offer_ids)
             
