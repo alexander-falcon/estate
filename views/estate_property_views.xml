@@ -30,7 +30,7 @@
         <field name="arch" type="xml">
             <form string="Estate Property">
                 <header>
-                    <button name="sold_property" type="object" string="SOLD" states="sold"/> <!--creo que el estado aqui esta mal-->
+                    <button name="sold_property" type="object" string="SOLD" states="accepted"/> <!--creo que el estado aqui esta mal-->
                     <button name="cancel_property" type="object" string="CANCEL" states="accepted"/>
                 </header>
                 <sheet>
